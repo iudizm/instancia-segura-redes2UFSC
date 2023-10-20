@@ -34,11 +34,11 @@ Fomos então tentar usar o serviço da AWS e tudo ocorreu bem na criação da co
 
 ## MFA
 
-Na conta root, Iudi ativou a autenticação multifatorial, utilizando o Google Authenticator.
+Iudi, sendo o usuário root, ativou a autenticação multifatorial, utilizando o Google Authenticator.
 
-## Grupos
+## Grupos IAM
 
-Criamos dois grupos, um para os gerentes da EC2 e outro para o usuário "cebola".
+ O usuário root criou dois grupos, um para os gerentes da EC2 e outro para o usuário "cebola".
 
 1. **Grupo de Gerentes**
 
