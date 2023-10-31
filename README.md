@@ -29,7 +29,7 @@ Grupo: Iudi e Michele
 
 Inicialmente, tentamos utilizar a Azure para realizar o trabalho, entretanto, enfrentamos dificuldades com a conta da microsoft na Azure, que estava deslogando automaticamente na criação da instância Linux.
 
-Fomos então tentar usar o serviço da AWS e tudo ocorreu bem na criação da conta e da instância, portanto foi a escolhida para o trabalho.
+Fomos então tentar usar o serviço da AWS e tudo ocorreu bem na criação da conta e da instância, portanto foi a escolhida para o trabalho, utilizando o *Free Tier*.
 
 ## MFA
 _Responsável: Iudi_
@@ -57,33 +57,33 @@ O usuário root criou dois grupos, um para os gerentes da EC2 e outro para o usu
 _Responsável: Iudi_
 
 Especificações:
-
 EC2 t2.micro | Amazon Linux 2023
 
-Nome da Instância: Curupira
+Nome da instância: Curupira
 
 ## Chaves pública/privada
 _Responsável: Iudi_
 
 Com o par de chaves criado automaticamente pelo AWS, foi feita a conexão com o servidor:
 
-![imagem]()
+![](imagens/ssh_chave_padrao.png)
 
 Adicionadas as chaves públicas no `authorized_keys`, conexão com a chave ssh própria:
 
-![]()
+![](imagens/ssh_iudi.png)
 
 ## Apache & HTTP
-_Responsável: Iudi_
-
 
 ## Firewall
-_Responsável: Iudi_
-
 
 ## CA & HTTPS
 
-## Restrições
+## Restrições de Acesso
+
+Inicialmente acesso liberado para as portas 80 e 443.   
+Acesso restrito a um IP específico para a porta 22.
+
+Posteriormente, restrita a porta 22 para rede da UFSC.
 
 ## MAC
 
