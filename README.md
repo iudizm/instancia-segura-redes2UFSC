@@ -14,7 +14,6 @@ Grupo: Iudi e Michele
 3. [Grupos](#grupos)
 4. [Instancia](#instancia)
 5. [Chaves pública/privada](#chaves-públicaprivada)
-6. [Patches](#patches)
 7. [Apache2](#apache2)
 8. [CA](#ca)
 9. [Firewall](#firewall)
@@ -33,12 +32,14 @@ Inicialmente, tentamos utilizar a Azure para realizar o trabalho, entretanto, en
 Fomos então tentar usar o serviço da AWS e tudo ocorreu bem na criação da conta e da instância, portanto foi a escolhida para o trabalho.
 
 ## MFA
+_Responsável: Iudi_
 
-Iudi, sendo o usuário root, ativou a autenticação multifatorial, utilizando o Google Authenticator.
+Usuário root ativou a autenticação multifatorial, utilizando o Google Authenticator.
 
 ## Grupos IAM
+_Responsável: Iudi_
 
- O usuário root criou dois grupos, um para os gerentes da EC2 e outro para o usuário "cebola".
+O usuário root criou dois grupos, um para os gerentes da EC2 e outro para o usuário "cebola".
 
 1. **Grupo de Gerentes**
 
@@ -52,23 +53,35 @@ Iudi, sendo o usuário root, ativou a autenticação multifatorial, utilizando o
 
     Política de permissões do grupo: `AmazonEC2ReadOnlyAccess`
 
-## Instancia
+## Instância EC2
+_Responsável: Iudi_
 
-EC2 t2.micro
+Especificações:
 
-Amazon Linux 2023.09 (com SELINUX instalado)
+EC2 t2.micro | Amazon Linux 2023
+
+Nome da Instância: Curupira
 
 ## Chaves pública/privada
+_Responsável: Iudi_
 
-## Patches
+Com o par de chaves criado automaticamente pelo AWS, foi feita a conexão com o servidor:
 
-## Apache2
+![imagem]()
 
-## CA
+Adicionadas as chaves públicas no `authorized_keys`, conexão com a chave ssh própria:
+
+![]()
+
+## Apache & HTTP
+_Responsável: Iudi_
+
 
 ## Firewall
+_Responsável: Iudi_
 
-## FirewallInst
+
+## CA & HTTPS
 
 ## Restrições
 
