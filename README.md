@@ -1,42 +1,43 @@
 # Relatório do Projeto de Instância Segura em Nuvem
 
-**UFSC 2023/2**
+**UFSC - Universidade Federeal de Santa Catarina**
+*Centro de Ciências, Tecnologias e Saúde* - *Departamento de Engenharia de Computação*
 
-Redes de Computadores II    
-Professor [Gerson Luiz Camillo](https://github.com/glcamillo)
+***DEC7128 -  Redes de Computadores II***
 
-Grupo: Iudi e Michele
+Professor: [*Gerson Luiz Camillo*](https://github.com/glcamillo)
+
+Alunos:
+
+*Iudi Zurba Melgarejo*
+*Michele*
 
 ## Sumário
 
-1. [Provedor](#provedor)
-2. [MFA](#mfa)
-3. [Grupos](#grupos)
-4. [Instancia](#instancia)
-5. [Chaves pública/privada](#chaves-públicaprivada)
-7. [Apache2](#apache2)
-8. [CA](#ca)
-9. [Firewall](#firewall)
-10. [FirewallInst](#firewallinst)
-11. [Restrições](#restrições)
-12. [MAC](#mac)
-13. [Tecnicas](#tecnicas)
-14. [Logs](#logs)
-15. [LogsApache](#logsapache)
-16. [NTP](#ntp)
 
-## Provedor
+
+## Introdução
+
+É de conhecimento comum que as práticas de segurança são indispensáveis para montagem de qualquer sistema computacional em rede.
+Nesse trabalho, abordamos práticas mínimas de segurança, para montagem de um servidor web na nuvem, provendo serviços HTTP, HTTPS e SSH.
+Esse é um relatório descritivo da experiência de montagem e configuração do servidor, e as práticas de segurança adotadas.
+
+## 1. Provedor de Nuvem
 
 Inicialmente, tentamos utilizar a Azure para realizar o trabalho, entretanto, enfrentamos dificuldades com a conta da microsoft na Azure, que estava deslogando automaticamente na criação da instância Linux.
 
 Fomos então tentar usar o serviço da AWS e tudo ocorreu bem na criação da conta e da instância, portanto foi a escolhida para o trabalho, utilizando o *Free Tier*.
 
-## MFA
+Iudi ficou como o responsável pela conta na AWS.(*root*)
+
+## 2. MFA
+
 _Responsável: Iudi_
 
 Usuário root ativou a autenticação multifatorial, utilizando o Google Authenticator.
 
-## Grupos IAM
+## 3. Grupos IAM
+
 _Responsável: Iudi_
 
 O usuário root criou dois grupos, um para os gerentes da EC2 e outro para o usuário "cebola".
@@ -53,44 +54,110 @@ O usuário root criou dois grupos, um para os gerentes da EC2 e outro para o usu
 
     Política de permissões do grupo: `AmazonEC2ReadOnlyAccess`
 
-## Instância EC2
+## 4. Instância EC2
+
 _Responsável: Iudi_
 
-Especificações:
-EC2 t2.micro | Amazon Linux 2023
+Tipo de instância: EC2 t2.micro
 
-Nome da instância: Curupira
+Imagem de SO escolhida: Amazon Linux 2023
 
-## Chaves pública/privada
+Nome da instância: "Curupira"
+
+Criamos a instância sem problemas, utilizamos as opções padrões do Free Tier para as configurações de armazenamento.
+
+Foi gerada o par de chaves padrão da criação da instância.
+
+## 5. SSH - Primeiras conexoes
+
 _Responsável: Iudi_
 
 Com o par de chaves criado automaticamente pelo AWS, foi feita a conexão com o servidor:
 
 ![](imagens/ssh_chave_padrao.png)
 
-Adicionadas as chaves públicas no `authorized_keys`, conexão com a chave ssh própria:
+Foram adicionadas as chaves públicas dos integrantes no arquivo `authorized_keys` do servidor.
+
+Feito isso, conexão com a chave ssh própria (iudi):
 
 ![](imagens/ssh_iudi.png)
 
-## Apache & HTTP
+## 6. Usuários na instância
 
-## Firewall
+_Responsável: Iudi_
 
-## CA & HTTPS
+A equipe estava se conectando na instância com o usuário "ec2-user", que é o usuário padrão da instância.
 
-## Restrições de Acesso
+É possível criar um usuário no sistema para cada integrante, e relacionar a respectiva chave pública em cada usuário criado.
+Porém, optamos por manter um usuário único ec2-user, para manter a simplicidade no acesso e permissões no sistema.
 
-Inicialmente acesso liberado para as portas 80 e 443.   
-Acesso restrito a um IP específico para a porta 22.
+## 7. Apache & HTTP
 
-Posteriormente, restrita a porta 22 para rede da UFSC.
+_Responsável: Iudi_
 
-## MAC
 
-## Tecnicas
+Montagem do servidor web com Apache e HTTP.
+
+Instalação do Apache:
+
+Seguindo o [Guia para instalação no Amazon Linux 2023](), instaladas as dependências e o Apache, bem como configuradas as permissões de acesso aos diretórios de `/var/www/html`.
+
+* Serviço `httpd` iniciado e habilitado para iniciar com o sistema:
+
+![httpd_status](imagens/httpd_status.png)
+![httpd_ola_mundo](imagens/httpd_ola_mundo.png)
+
+* PHP instalado e funcionando:
+
+![php_info](imagens/php_info.png)
+
+## 8. Restrições de portas na AWS
+
+_Responsável: Iudi_
+
+Inicialmente, deixamos as portas 80, 443 e 22 abertas para qualquer IP.
+
+Posteriormente, a porta 80 foi restrita aos IPs da Rede UFSC.
+
+## 9. CA & HTTPS
+
+_Responsável: Iudi_
+
+* Geramos um certificado SSL auto assinado (nível mais básico de certificao)
+![https_cert_auto](imagens/https_cert_auto.png)
+
+## 9. Firewall
+
+_Responsável: Iudi_
+
+* Permissão para a porta 80 liberada no firewall:
+
+![httpd_firewall](imagens/httpd_firewall.png)
+
+
+## 11. Honeypot Cowrie
+
+_Responsável: Iudi_
+
+Instalamos a ferramenta Cowrie para realizar o serviço de honeypot na instância, escutando na porta 22 e 2222 por possiveis tentativas de acesso SSH.
+
+O Cowrie simula um servidor SSH, e registra as tentativas de acesso, bem como as ações realizadas pelos atacantes. O conteudo e salvo em logs no usuario cowrie.
+
+# 12. SSH 
+
+_Responsável: Iudi_
+
+A porta para o servico SSH real foi alterada para uma porta especifica nao convencional, definidada pelo grupo.
+
+**Problema:** Inicialmente, cometi o deslize de nao alterar a porta do servico SSH antes de definir o encaminhamento da porta 22 para a 2222(onde o Honeypot esta escutando), isso acarretou com que o acesso por SSH a instancia fosse impossibilitado.
+**Solucao:** Apos certa pesquisa, consegui utilizar a funcionalidade da AWS chamada System Session Manager(SSM), que permite acesso a instancia sem a necessidade de uma porta aberta para SSH, e sem a necessidade de uma chave privada. Apenas com o usuario e senha do usuario ec2-user, e com o acesso ao console da AWS, foi possivel retomar acesso a instancia e corrigir a porta SSH.
+
+## Acesso Mandatório (SELINUX)
+
+## Tecnicas de seguranca CIS Benchmark
+
+## NTP na instancia
 
 ## Logs
 
 ## LogsApache
-
-## NTP
