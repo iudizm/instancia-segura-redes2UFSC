@@ -196,8 +196,18 @@ O SELinux estará ativado e funcionando no modo "enforcing", o que aumentará a 
 ![image](https://github.com/iudizm/instancia-segura-redes2UFSC/assets/93664169/2fbcb49b-81c8-4713-9052-3dab87d38513)
 
 
+![image](https://github.com/iudizm/instancia-segura-redes2UFSC/assets/93664169/bc9d65ca-7017-45c5-b67e-0ca6b719b42c)
+
+
+![image](https://github.com/iudizm/instancia-segura-redes2UFSC/assets/93664169/f8186d0d-a8da-4994-a4a7-8df74a9a662b)
+
+
 ## Logs
 
+#### SHH porta oculta destinada
+acesso a ip limitado no aws security group
+
+### Logs Cowrie honeypot :22 e :2222
 
 
-## LogsApache
+### LogsApache
