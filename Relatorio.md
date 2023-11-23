@@ -152,12 +152,52 @@ A porta para o servico SSH real foi alterada para uma porta especifica nao conve
 
 * **Solucao:** Apos certa pesquisa, consegui utilizar a funcionalidade da AWS chamada System Session Manager(SSM), que permite acesso a instancia sem a necessidade de uma porta aberta para SSH, e sem a necessidade de uma chave privada. Apenas com o usuario e senha do usuario ec2-user, e com o acesso ao console da AWS, foi possivel retomar acesso a instancia e corrigir a porta SSH.
 
-## Acesso Mandatório (SELINUX)
 
-## Tecnicas de seguranca CIS Benchmark
+## Configurar o NTP: sincronizar o relógio da instância com o horário de Brasília.
 
-## NTP na instancia
+*Responsável: Michele*
+
+Para configurar o NTP (Network Time Protocol) em uma instância da AWS com sistema CentOS/RHEL para sincronizar o relógio com o horário de Brasília usamos os seguintes comandos:
+![image](https://github.com/iudizm/instancia-segura-redes2UFSC/assets/93664169/b1938c94-ec09-4c8c-81f1-27ab42396802)
+
+Como mostrado na imagem o pacote npn não foi reconhecido ou não está disponível nos repositórios de pacotes padrão da instância CentOS.
+O que nos levou a pegar uma alternativa. A partir do CentOS 8, o NTP foi substituído pelo Chrony como o cliente NTP padrão. Portanto, utilizamos o Chrony para configurar a sincronização de tempo em vez do NTP. 
+
+![image](https://github.com/iudizm/instancia-segura-redes2UFSC/assets/93664169/7e2a4019-c956-4fc2-9b77-ef25cb21971e)
+
+Como podemos ver na imagem abaixo, o sistema esta configurado para sincronizar o relógio da sua instância CentOS com o horário de Brasília usando servidores NTP.
+
+![image](https://github.com/iudizm/instancia-segura-redes2UFSC/assets/93664169/42df45c8-a9d8-4753-a10f-87c384ccbfac)
+
+
+
+## Acesso Mandatório (SELINUX): estrutura de segurança
+
+*Responsável: Michele*
+
+O SELinux, ou Security-Enhanced Linux, é uma estrutura de segurança desenvolvida para sistemas Linux que adiciona uma camada adicional de controle de acesso obrigatório (MAC - Mandatory Access Control) ao sistema operacional. Essa camada de segurança complementa o controle de acesso baseado em permissões tradicional, conhecido como controle de acesso discricionário (DAC - Discretionary Access Control), que é controlado pelos proprietários de arquivos e administradores do sistema.
+
+- Enforcing (Impositivo): Neste modo, o SELinux está ativo e aplicará rigorosamente todas as políticas de segurança definidas, o que significa que ele restringirá o acesso a recursos do sistema de acordo com as políticas de controle de acesso obrigatório (MAC) configuradas. Se um processo tentar realizar uma ação que não esteja de acordo com as políticas, o SELinux negará essa ação.
+  
+O SELinux estará ativado e funcionando no modo "enforcing", o que aumentará a segurança do sistema, aplicando políticas de controle de acesso obrigatório. o SELinux pode ser rigoroso e pode exigir configurações adicionais para permitir que aplicativos específicos funcionem corretamente. Você pode consultar a documentação do SELinux e as políticas de segurança do CentOS ou RHEL para ajustar as configurações conforme necessário para as necessidades do seu sistema.
+
+![image](https://github.com/iudizm/instancia-segura-redes2UFSC/assets/93664169/492c4ea1-feb0-411a-bc02-456d5ba83121)
+
+
+
+## Tecnicas de seguranca: CIS Benchmark
+
+- **Desabilitar Portas Não Utilizadas**: Isso pode ajudar a prevenir acessos não autorizados a serviços que não são necessários para a operação da sua instância.
+
+- **Configurar uma Política de Senhas Forte no IAM**: Isso inclui a aplicação de uma política de senhas complexas, uso de autenticação multifator (MFA), desabilitação do usuário root e rotação regular das chaves de acesso​​​​. https://aws.amazon.com/pt/what-is/cis-benchmarks/
+
+## certificacao SSL: LetsEncrypt
+
+![image](https://github.com/iudizm/instancia-segura-redes2UFSC/assets/93664169/2fbcb49b-81c8-4713-9052-3dab87d38513)
+
 
 ## Logs
+
+
 
 ## LogsApache
