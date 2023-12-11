@@ -132,7 +132,7 @@ Posteriormente, a porta 80 foi restrita aos IPs da Rede UFSC.
 
 * Permissão para a porta 80 liberada no firewall:
 
-![httpd_firewall](imagens/httpd_firewall.png)
+![httpd_firewall](https://github.com/iudizm/instancia-segura-redes2UFSC/assets/93664169/10cc976d-d4c6-4602-b2e6-ea7b1a99baac)
 
 ## 11. Instalando Honeypot
 
@@ -169,7 +169,8 @@ Como podemos ver na imagem abaixo, o sistema esta configurado para sincronizar o
 
 ![image](https://github.com/iudizm/instancia-segura-redes2UFSC/assets/93664169/42df45c8-a9d8-4753-a10f-87c384ccbfac)
 
-
+Checkar o Status
+![image](https://github.com/iudizm/instancia-segura-redes2UFSC/assets/93664169/58202511-e03d-42cc-9631-81afc0b7a450)
 
 ## Acesso Mandatório (SELINUX): estrutura de segurança
 
@@ -182,6 +183,11 @@ O SELinux, ou Security-Enhanced Linux, é uma estrutura de segurança desenvolvi
 O SELinux estará ativado e funcionando no modo "enforcing", o que aumentará a segurança do sistema, aplicando políticas de controle de acesso obrigatório. o SELinux pode ser rigoroso e pode exigir configurações adicionais para permitir que aplicativos específicos funcionem corretamente. Você pode consultar a documentação do SELinux e as políticas de segurança do CentOS ou RHEL para ajustar as configurações conforme necessário para as necessidades do seu sistema.
 
 ![image](https://github.com/iudizm/instancia-segura-redes2UFSC/assets/93664169/492c4ea1-feb0-411a-bc02-456d5ba83121)
+
+
+codigo que checka:
+![image](https://github.com/iudizm/instancia-segura-redes2UFSC/assets/93664169/04e65a22-52aa-42db-a2cd-0ba101a68617)
+
 
 ## Tecnicas de seguranca: CIS Benchmark
 
@@ -199,30 +205,23 @@ O SELinux estará ativado e funcionando no modo "enforcing", o que aumentará a 
 
 ## Extração de Logs
 
-### Extração de Logs do Apache
+### Extração de Logs de acesso do Apache
 
 *Responsável: Michele*
 
 Os logs do Apache ficam armazenados no diretorio `/var/log/httpd/` e podem ser acessados pelo usuario root.
 
-### Analise de logs do Apache
+
+### Analise de logs de acesso do Apache
 
 *Responsável: Michele*
 
-### Extração de Logs do Cowrie Honeypot
 
-*Responsável: Iudi*
+### Extração de Logs de acesso do SSH
 
-Copiado do diretorio de logs para a raiz do usuário `ec2-user`. Assim, foi possivel extrair do servidor com o comando `scp`
+*Responsável: iudi*
 
-### Analise de logs do Cowrie Honeypot
+### Analise de logs de acesso do SSH
 
-*Responsável: Iudi*
+*Responsável: iudi*
 
-O honeypot ficou escutando na porta :22 e :2222, e registrou as tentativas de acesso, bem como as ações realizadas pelos atacantes. O conteudo foi salvo nos logs no usuario `cowrie`.
-
-Analisando os trechos de disponíveis em [logs/cowrie.log](/logs/cowrie.log), vemos que houveram diversas tentativas de exploração de possíveis vulnerabilidades no servidor.
-
-ex:
-```log
-```
